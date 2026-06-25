@@ -31,7 +31,7 @@ export default function Hero() {
                             pauseDuration={2000}
                             deletingSpeed={30}
                             showCursor={true}
-                            cursorCharacter="|"
+                            cursorCharacter="_"
                             className="text-blue-950 text-2xl font-serif"
                             cursorClassName="text-blue-950 text-2xl font-serif"
                             loop={true}
