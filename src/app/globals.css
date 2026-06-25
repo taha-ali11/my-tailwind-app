@@ -19,7 +19,7 @@
 .dark {
   --background: #0a0a0a;
   --foreground: #ededed;
-  --navbar-bg: #111827;
+  --navbar-bg: #0842be;
   --navbar-text: #d1d5db;
   --navbar-hover: #60a5fa;
   --dropdown-bg: #1f2937;
@@ -66,4 +66,13 @@ body {
 
 .border-custom {
   border-color: var(--border-color);
+}
+
+
+html {
+  scroll-behavior: smooth;
+}
+
+section {
+  scroll-margin-top: 64px;
 }

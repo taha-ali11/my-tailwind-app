@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import ThemeToggle from '../Theme';
+import Hero from './Hero';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,19 +22,39 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Smooth scroll function
+  const smoothScrollTo = (e, sectionId) => {
+    e.preventDefault();
+    const element = document.getElementById(sectionId);
+    if (element) {
+      const navbarHeight = 64; // Height of your navbar (h-16 = 4rem = 64px)
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - navbarHeight;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+      
+      // Close mobile menu if open
+      setIsOpen(false);
+    }
+  };
+
   const navLinks = [
-    { name: 'Home', href: '/' },
-    { name: 'About', href: '/about' },
+    { name: 'Home', href: '#home', sectionId: 'home' },
+    { name: 'About', href: '#about', sectionId: 'about' },
     {
       name: 'Services',
-      href: '/services',
+      href: '#services',
+      sectionId: 'services',
       dropdown: [
-        { name: 'Web Design', href: '/services/web-design' },
-        { name: 'Development', href: '/services/development' },
-        { name: 'Marketing', href: '/services/marketing' },
+        { name: 'Web Design', href: '#web-design', sectionId: 'web-design' },
+        { name: 'Development', href: '#development', sectionId: 'development' },
+        { name: 'Marketing', href: '#marketing', sectionId: 'marketing' },
       ],
     },
-    { name: 'Contact', href: '/contact' },
+    { name: 'Contact', href: '#contact', sectionId: 'contact' },
   ];
 
   const isActive = (path) => {
@@ -47,22 +68,23 @@ const Navbar = () => {
     <nav
       className={`fixed h-16 w-full z-50 transition-all duration-300 ${
         scrolled 
-          ? 'bg-white dark:bg-gray-900 shadow-lg' 
-          : 'bg-white/80 dark:bg-gray-900/80 backdrop-blur-md'
+          ? 'bg-white dark:bg-blue-500 shadow-lg' 
+          : 'bg-blue-800 dark:bg-blue-600'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex items-center">
-            <Link href="/" className="flex items-center">
-              <div className="w-10 h-10 bg-blue-600 dark:bg-blue-500 rounded-lg flex items-center justify-center transition-colors">
-                <span className="text-white font-bold text-xl">L</span>
-              </div>
-              <span className="ml-2 text-xl font-bold text-blue-600 dark:text-blue-400 transition-colors">
+            <a 
+              href="#home" 
+              onClick={(e) => smoothScrollTo(e, 'home')}
+              className="cursor-pointer"
+            >
+              <span className="text-xl font-bold text-blue-600 dark:text-blue-400 transition-colors">
                 Logo
               </span>
-            </Link>
+            </a>
           </div>
 
           {/* Desktop Menu */}
@@ -86,27 +108,29 @@ const Navbar = () => {
                     </button>
                     <div className="absolute left-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 invisible group-hover:visible transition-all duration-200">
                       {link.dropdown.map((item) => (
-                        <Link
+                        <a
                           key={item.href}
                           href={item.href}
-                          className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-gray-700 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                          onClick={(e) => smoothScrollTo(e, item.sectionId)}
+                          className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-gray-700 hover:text-blue-600 dark:hover:text-blue-400 transition-colors cursor-pointer"
                         >
                           {item.name}
-                        </Link>
+                        </a>
                       ))}
                     </div>
                   </>
                 ) : (
-                  <Link
+                  <a
                     href={link.href}
+                    onClick={(e) => smoothScrollTo(e, link.sectionId)}
                     className={`${
                       isActive(link.href)
                         ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
                         : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400'
-                    } px-3 py-2 text-sm font-medium transition-all duration-300`}
+                    } px-3 py-2 text-sm font-medium transition-all duration-300 cursor-pointer`}
                   >
                     {link.name}
-                  </Link>
+                  </a>
                 )}
               </div>
             ))}
@@ -168,30 +192,36 @@ const Navbar = () => {
                     {dropdownOpen && (
                       <div className="pl-4 space-y-1">
                         {link.dropdown.map((item) => (
-                          <Link
+                          <a
                             key={item.href}
                             href={item.href}
-                            className="block px-3 py-2 rounded-md text-base font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                            onClick={() => setIsOpen(false)}
+                            onClick={(e) => {
+                              smoothScrollTo(e, item.sectionId);
+                              setIsOpen(false);
+                            }}
+                            className="block px-3 py-2 rounded-md text-base font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 transition-colors cursor-pointer"
                           >
                             {item.name}
-                          </Link>
+                          </a>
                         ))}
                       </div>
                     )}
                   </>
                 ) : (
-                  <Link
+                  <a
                     href={link.href}
+                    onClick={(e) => {
+                      smoothScrollTo(e, link.sectionId);
+                      setIsOpen(false);
+                    }}
                     className={`${
                       isActive(link.href)
                         ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400'
                         : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400'
-                    } block px-3 py-2 rounded-md text-base font-medium transition-colors`}
-                    onClick={() => setIsOpen(false)}
+                    } block px-3 py-2 rounded-md text-base font-medium transition-colors cursor-pointer`}
                   >
                     {link.name}
-                  </Link>
+                  </a>
                 )}
               </div>
             ))}
@@ -214,6 +244,8 @@ const Navbar = () => {
           </div>
         </div>
       )}
+
+<Hero/>
     </nav>
   );
 };
