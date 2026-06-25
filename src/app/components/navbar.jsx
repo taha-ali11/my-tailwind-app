@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import ThemeToggle from './ui/Theme';
+import ThemeToggle from './ui/theme';
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
