@@ -16,15 +16,9 @@ const NAV_LINKS = [
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isMounted, setIsMounted] = useState(false);
   const pathname = usePathname();
   const menuRef = useRef(null);
   const buttonRef = useRef(null);
-
-  // Handle mounting for animations
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
 
   // Close menu on route change
   useEffect(() => {
@@ -88,17 +82,17 @@ const NavBar = () => {
       role="navigation"
       aria-label="Main navigation"
     >
-      <div className="navbar-bg rounded-full px-4 md:px-6 py-3 border flex items-center justify-between gap-2">
+      <div className="rounded-full px-4 md:px-6 py-3 border border-slate-200/50 dark:border-slate-700/50 flex items-center justify-between gap-2 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md shadow-lg shadow-slate-200/20 dark:shadow-slate-800/20">
         {/* Logo */}
         <Link 
           href="/" 
           className="flex items-center gap-2 group focus:outline-none focus:ring-2 focus:ring-vivid-lime rounded-full"
           aria-label="IMG Home page"
         >
-          <div className="w-10 h-10 rounded-full bg-gradient-to-r from-dark-cyan to-vivid-lime flex items-center justify-center text-white font-bold text-sm transition-transform group-hover:scale-105">
-            IMG
+          <div className="w-10 h-10 rounded-full bg-gradient-to-r from-dark-cyan to-vivid-lime flex items-center justify-center text-white font-bold text-sm transition-transform group-hover:scale-105 shadow-md shadow-vivid-lime/20">
+            {/* Removed IMG text - just the gradient circle */}
           </div>
-          <span className="navbar-text font-bold text-lg hidden sm:block">
+          <span className="font-bold text-lg hidden sm:block text-slate-800 dark:text-slate-200">
             IMG
           </span>
         </Link>
@@ -114,10 +108,10 @@ const NavBar = () => {
               href={link.path}
               role="menuitem"
               aria-current={isActiveLink(link.path) ? 'page' : undefined}
-              className={`navbar-text px-3 lg:px-4 py-1.5 rounded-full transition-all duration-300 text-sm font-medium ${
+              className={`px-3 lg:px-4 py-1.5 rounded-full transition-all duration-300 text-sm font-medium ${
                 isActiveLink(link.path)
-                  ? 'bg-dark-cyan/10 text-dark-cyan dark:text-vivid-lime'
-                  : 'hover:bg-dark-cyan/10'
+                  ? 'bg-vivid-lime text-slate-900 dark:bg-vivid-lime dark:text-slate-900'
+                  : 'text-slate-700 dark:text-slate-300 hover:bg-vivid-lime hover:text-slate-900 dark:hover:bg-vivid-lime dark:hover:text-slate-900'
               }`}
             >
               {link.name}
@@ -129,10 +123,10 @@ const NavBar = () => {
         <div className="flex items-center gap-2">
           <Link
             href="/contact"
-            className="hidden md:block px-4 lg:px-5 py-1.5 bg-vivid-lime text-slate-blue rounded-full text-sm font-semibold shadow-md hover:shadow-vivid-lime/25 transition-all duration-300 hover:scale-105 active:scale-95 shrink-0 focus:outline-none focus:ring-2 focus:ring-vivid-lime focus:ring-offset-2"
+            className="px-4 py-3 bg-[#a2f6a2] text-[#2c2c84] rounded-full text-center font-semibold shadow-md transition-all duration-300 hover:scale-105 hover:bg-dark-cyan hover:text-blue-700 active:scale-95 text-base focus:outline-none focus:ring-2 focus:ring-lime focus:ring-offset-2"
             aria-label="Get a free audit of your software needs"
           >
-            Get Free Audit
+            Free Audit
           </Link>
           
           <ThemeToggle />
@@ -140,14 +134,13 @@ const NavBar = () => {
           <button
             ref={buttonRef}
             onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden w-10 h-10 rounded-full bg-gray-100/50 dark:bg-gray-700/50 hover:bg-gray-200/50 dark:hover:bg-gray-600/50 flex items-center justify-center transition-colors shrink-0 focus:outline-none focus:ring-2 focus:ring-vivid-lime"
+            className="md:hidden w-10 h-10 rounded-full bg-slate-100/50 dark:bg-slate-700/50 hover:bg-vivid-lime hover:text-slate-900 dark:hover:bg-vivid-lime dark:hover:text-slate-900 flex items-center justify-center transition-all duration-300 shrink-0 focus:outline-none focus:ring-2 focus:ring-vivid-lime hover:scale-105"
             aria-label={isOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={isOpen}
             aria-controls="mobile-menu"
           >
-            {/* SVG Icons instead of text symbols */}
             <svg
-              className="w-5 h-5 navbar-text"
+              className="w-5 h-5 text-slate-800 dark:text-slate-200 hover:text-slate-900 dark:hover:text-slate-900"
               fill="none"
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -165,17 +158,19 @@ const NavBar = () => {
         </div>
       </div>
 
-      {/* Mobile Menu - Fixed with better animation and accessibility */}
+      {/* Mobile Menu */}
       <div
         id="mobile-menu"
         ref={menuRef}
         role="menu"
         aria-hidden={!isOpen}
-        className={`md:hidden mt-3 bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl rounded-2xl p-4 shadow-2xl border border-white/20 dark:border-gray-700/30 flex flex-col gap-2 transition-all duration-300 ${
-          isOpen && isMounted
-            ? 'opacity-100 translate-y-0 pointer-events-auto'
-            : 'opacity-0 -translate-y-2 pointer-events-none'
-        }`}
+        className="md:hidden mt-3 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl rounded-2xl p-4 shadow-2xl border border-slate-200/20 dark:border-slate-700/30 flex flex-col gap-2"
+        style={{
+          opacity: isOpen ? 1 : 0,
+          transform: isOpen ? 'translateY(0)' : 'translateY(-10px)',
+          pointerEvents: isOpen ? 'auto' : 'none',
+          transition: 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out'
+        }}
       >
         {NAV_LINKS.map((link) => (
           <Link
@@ -184,10 +179,10 @@ const NavBar = () => {
             role="menuitem"
             aria-current={isActiveLink(link.path) ? 'page' : undefined}
             onClick={() => setIsOpen(false)}
-            className={`navbar-text px-4 py-3 rounded-full transition-all duration-300 text-center text-base ${
+            className={`px-4 py-3 rounded-full transition-all duration-300 text-center text-base ${
               isActiveLink(link.path)
-                ? 'bg-dark-cyan/10 text-dark-cyan dark:text-vivid-lime'
-                : 'hover:bg-dark-cyan/10'
+                ? 'bg-vivid-lime text-slate-900 dark:bg-vivid-lime dark:text-slate-900'
+                : 'text-slate-700 dark:text-slate-300 hover:bg-vivid-lime hover:text-slate-900 dark:hover:bg-vivid-lime dark:hover:text-slate-900'
             }`}
           >
             {link.name}
@@ -197,7 +192,7 @@ const NavBar = () => {
         <Link
           href="/contact"
           onClick={() => setIsOpen(false)}
-          className="px-4 py-3 bg-vivid-lime text-slate-blue rounded-full text-center font-semibold shadow-md transition-all duration-300 hover:scale-105 active:scale-95 text-base focus:outline-none focus:ring-2 focus:ring-vivid-lime focus:ring-offset-2"
+          className="px-4 py-3 bg-[#00ff00] text-[#3636f3] rounded-full text-center font-semibold shadow-md transition-all duration-300 hover:scale-105 hover:bg-dark-cyan hover:text-blue-700 active:scale-95 text-base focus:outline-none focus:ring-2 focus:ring-lime focus:ring-offset-2"
           role="menuitem"
           aria-label="Get a free audit of your software needs"
         >
