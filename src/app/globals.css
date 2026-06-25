@@ -6,36 +6,99 @@
 
 /* CSS Variables */
 :root {
+  /* Backgrounds */
   --background: #ffffff;
-  --foreground: #fafafa;
-  --navbar-bg: #ff0000;
+  --foreground: #111827;
+  --hero-bg: #d7e7ff;
+  --hero-text: #1e3a8a;
+  --hero-subtitle: #1d4ed8;
+  
+  /* Navbar */
+  --navbar-bg: rgba(255, 255, 255, 0.8);
+  --navbar-border: rgba(255, 255, 255, 0.2);
   --navbar-text: #374151;
   --navbar-hover: #2563eb;
-  --dropdown-bg: #ffffff;
+  --navbar-hover-bg: rgba(0, 0, 0, 0.05);
+  
+  /* Dropdown */
+  --dropdown-bg: rgba(255, 255, 255, 0.95);
+  --dropdown-border: rgba(255, 255, 255, 0.2);
+  
+  /* Borders & Shadows */
   --border-color: #e5e7eb;
+  --shadow-color: rgba(59, 130, 246, 0.1);
+  
+  /* Text Type */
+  --text-color: #1e3a8a;
+  --cursor-color: #1e3a8a;
+  
+  /* Image */
+  --image-brightness: 1;
 }
 
 /* Dark mode variables */
 .dark {
+  /* Backgrounds */
   --background: #0a0a0a;
-  --foreground: #ededed;
-  --navbar-bg: #0842be;
+  --foreground: #f3f4f6;
+  --hero-bg: #111827;
+  --hero-text: #ffffff;
+  --hero-subtitle: #93c5fd;
+  
+  /* Navbar */
+  --navbar-bg: rgba(17, 24, 39, 0.8);
+  --navbar-border: rgba(55, 65, 81, 0.3);
   --navbar-text: #d1d5db;
   --navbar-hover: #60a5fa;
-  --dropdown-bg: #1f2937;
+  --navbar-hover-bg: rgba(255, 255, 255, 0.05);
+  
+  /* Dropdown */
+  --dropdown-bg: rgba(17, 24, 39, 0.95);
+  --dropdown-border: rgba(55, 65, 81, 0.3);
+  
+  /* Borders & Shadows */
   --border-color: #374151;
+  --shadow-color: rgba(59, 130, 246, 0.2);
+  
+  /* Text Type */
+  --text-color: #93c5fd;
+  --cursor-color: #93c5fd;
+  
+  /* Image */
+  --image-brightness: 0.9;
 }
 
 /* System preference dark mode */
 @media (prefers-color-scheme: dark) {
   :root:not(.light) {
+    /* Backgrounds */
     --background: #0a0a0a;
-    --foreground: #ededed;
-    --navbar-bg: #111827;
+    --foreground: #f3f4f6;
+    --hero-bg: #111827;
+    --hero-text: #ffffff;
+    --hero-subtitle: #93c5fd;
+    
+    /* Navbar */
+    --navbar-bg: rgba(17, 24, 39, 0.8);
+    --navbar-border: rgba(55, 65, 81, 0.3);
     --navbar-text: #d1d5db;
     --navbar-hover: #60a5fa;
-    --dropdown-bg: #1f2937;
+    --navbar-hover-bg: rgba(255, 255, 255, 0.05);
+    
+    /* Dropdown */
+    --dropdown-bg: rgba(17, 24, 39, 0.95);
+    --dropdown-border: rgba(55, 65, 81, 0.3);
+    
+    /* Borders & Shadows */
     --border-color: #374151;
+    --shadow-color: rgba(59, 130, 246, 0.2);
+    
+    /* Text Type */
+    --text-color: #93c5fd;
+    --cursor-color: #93c5fd;
+    
+    /* Image */
+    --image-brightness: 0.9;
   }
 }
 
@@ -47,32 +110,170 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Custom utility classes for navbar */
-.navbar-bg {
+/* Hero Section Styles */
+.hero-section {
+  background-color: var(--hero-bg);
+  transition: background-color 0.3s ease;
+}
+
+.hero-title {
+  color: var(--hero-text);
+  transition: color 0.3s ease;
+}
+
+.hero-subtitle {
+  color: var(--hero-subtitle);
+  transition: color 0.3s ease;
+}
+
+.hero-image {
+  filter: brightness(var(--image-brightness));
+  transition: filter 0.3s ease;
+}
+
+/* Text Type Component */
+.text-type-text {
+  color: var(--text-color);
+  transition: color 0.3s ease;
+}
+
+.text-type-cursor {
+  color: var(--cursor-color);
+  transition: color 0.3s ease;
+}
+
+/* Navbar Styles */
+.navbar-container {
   background-color: var(--navbar-bg);
+  border-color: var(--navbar-border);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 10px 40px -10px var(--shadow-color);
+  transition: background-color 0.3s ease, 
+              border-color 0.3s ease,
+              box-shadow 0.3s ease;
 }
 
 .navbar-text {
   color: var(--navbar-text);
+  transition: color 0.3s ease;
 }
 
-.navbar-hover:hover {
+.navbar-text:hover {
   color: var(--navbar-hover);
 }
 
-.dropdown-bg {
+.navbar-hover-bg:hover {
+  background-color: var(--navbar-hover-bg);
+}
+
+/* Dropdown Styles */
+.dropdown-container {
   background-color: var(--dropdown-bg);
+  border-color: var(--dropdown-border);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: background-color 0.3s ease, 
+              border-color 0.3s ease;
 }
 
 .border-custom {
   border-color: var(--border-color);
+  transition: border-color 0.3s ease;
 }
 
+/* Smooth transitions for all elements */
+* {
+  transition: background-color 0.3s ease, 
+              border-color 0.3s ease, 
+              color 0.3s ease,
+              box-shadow 0.3s ease,
+              filter 0.3s ease;
+}
 
+/* HTML and Scroll */
 html {
   scroll-behavior: smooth;
 }
 
 section {
   scroll-margin-top: 64px;
+}
+
+/* Utility Classes for Dark Mode */
+.dark .dark\:text-white {
+  color: #ffffff;
+}
+
+.dark .dark\:text-gray-300 {
+  color: #d1d5db;
+}
+
+.dark .dark\:text-blue-300 {
+  color: #93c5fd;
+}
+
+.dark .dark\:bg-gray-900 {
+  background-color: #111827;
+}
+
+.dark .dark\:bg-gray-800 {
+  background-color: #1f2937;
+}
+
+.dark .dark\:border-gray-700 {
+  border-color: #374151;
+}
+
+.dark .dark\:shadow-blue-900\/20 {
+  box-shadow: 0 10px 40px -10px rgba(30, 58, 138, 0.2);
+}
+
+.dark .dark\:brightness-90 {
+  filter: brightness(0.9);
+}
+
+/* Mobile Menu Animation */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-slideDown {
+  animation: slideDown 0.3s ease-out;
+}
+
+/* Bubble Animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-5px); }
+}
+
+.bubble-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, #3b82f6, #8b5cf6);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to bottom, #2563eb, #7c3aed);
 }
