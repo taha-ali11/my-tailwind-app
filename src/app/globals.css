@@ -1,105 +1,128 @@
-/* app/globals.css */
 @import "tailwindcss";
 
 /* Custom variant for dark mode */
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* CSS Variables */
 :root {
-  /* Backgrounds */
+  /* Light Mode Colors */
   --background: #ffffff;
-  --foreground: #111827;
-  --hero-bg: #d7e7ff;
-  --hero-text: #1e3a8a;
-  --hero-subtitle: #1d4ed8;
+  --foreground: #1a2332;
+  
+  /* Deep Slate Blue */
+  --slate-blue: #1a2332;
+  --slate-blue-light: #2a3a4a;
+  
+  /* Dark Cyan */
+  --dark-cyan: #008b8b;
+  --dark-cyan-light: #20b2aa;
+  
+  /* Vivid Lime */
+  --vivid-lime: #bfff00;
+  --vivid-lime-dark: #a0e600;
+  
+  /* Ice Blue */
+  --ice-blue: #f0f8ff;
+  
+  /* Hero */
+  --hero-bg: #ffffff;
+  --hero-title: #1a2332;
+  --hero-subtitle: #008b8b;
+  
+  /* Service Section */
+  --service-bg: #f0f8ff;
+  --service-card-bg: #ffffff;
+  --service-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+  --service-border: #e5e7eb;
+  
+  /* Social Proof */
+  --social-bg: #1a2332;
+  --social-text: #ffffff;
+  --social-metric: #bfff00;
+  
+  /* Contact Form */
+  --form-bg: #ffffff;
+  --form-border: #008b8b;
+  --form-text: #1a2332;
+  
+  /* Footer */
+  --footer-bg: #1a2332;
+  --footer-text: #ffffff;
+  --footer-link: #ffffff;
+  --footer-link-hover: #bfff00;
+  
+  /* Buttons */
+  --btn-primary-bg: #bfff00;
+  --btn-primary-text: #1a2332;
+  --btn-primary-hover: #a0e600;
   
   /* Navbar */
-  --navbar-bg: rgba(255, 255, 255, 0.8);
+  --navbar-bg: rgba(255, 255, 255, 0.9);
   --navbar-border: rgba(255, 255, 255, 0.2);
-  --navbar-text: #374151;
-  --navbar-hover: #2563eb;
-  --navbar-hover-bg: rgba(0, 0, 0, 0.05);
+  --navbar-text: #1a2332;
+  --navbar-hover: #008b8b;
   
-  /* Dropdown */
-  --dropdown-bg: rgba(255, 255, 255, 0.95);
-  --dropdown-border: rgba(255, 255, 255, 0.2);
-  
-  /* Borders & Shadows */
-  --border-color: #e5e7eb;
-  --shadow-color: rgba(59, 130, 246, 0.1);
-  
-  /* Text Type */
-  --text-color: #1e3a8a;
-  --cursor-color: #1e3a8a;
-  
-  /* Image */
-  --image-brightness: 1;
+  /* Transitions */
+  --transition-speed: 0.3s;
 }
 
-/* Dark mode variables */
+/* Dark Mode Colors */
 .dark {
   /* Backgrounds */
-  --background: #0a0a0a;
-  --foreground: #f3f4f6;
-  --hero-bg: #111827;
-  --hero-text: #ffffff;
-  --hero-subtitle: #93c5fd;
+  --background: #0a0f1a;
+  --foreground: #e5e7eb;
+  
+  /* Deep Slate Blue (lighter for dark mode) */
+  --slate-blue: #2a3a4a;
+  --slate-blue-light: #3a4a5a;
+  
+  /* Dark Cyan (brighter for dark mode) */
+  --dark-cyan: #20b2aa;
+  --dark-cyan-light: #40d0c8;
+  
+  /* Vivid Lime (slightly adjusted for dark) */
+  --vivid-lime: #bfff00;
+  --vivid-lime-dark: #a0e600;
+  
+  /* Ice Blue (darker for dark mode) */
+  --ice-blue: #1a2430;
+  
+  /* Hero */
+  --hero-bg: #0a0f1a;
+  --hero-title: #ffffff;
+  --hero-subtitle: #20b2aa;
+  
+  /* Service Section */
+  --service-bg: #141e2a;
+  --service-card-bg: #1a2430;
+  --service-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  --service-border: #2a3a4a;
+  
+  /* Social Proof */
+  --social-bg: #0a0f1a;
+  --social-text: #ffffff;
+  --social-metric: #bfff00;
+  
+  /* Contact Form */
+  --form-bg: #1a2430;
+  --form-border: #20b2aa;
+  --form-text: #e5e7eb;
+  
+  /* Footer */
+  --footer-bg: #0a0f1a;
+  --footer-text: #e5e7eb;
+  --footer-link: #e5e7eb;
+  --footer-link-hover: #bfff00;
+  
+  /* Buttons */
+  --btn-primary-bg: #bfff00;
+  --btn-primary-text: #1a2332;
+  --btn-primary-hover: #a0e600;
   
   /* Navbar */
-  --navbar-bg: rgba(17, 24, 39, 0.8);
-  --navbar-border: rgba(55, 65, 81, 0.3);
-  --navbar-text: #d1d5db;
-  --navbar-hover: #60a5fa;
-  --navbar-hover-bg: rgba(255, 255, 255, 0.05);
-  
-  /* Dropdown */
-  --dropdown-bg: rgba(17, 24, 39, 0.95);
-  --dropdown-border: rgba(55, 65, 81, 0.3);
-  
-  /* Borders & Shadows */
-  --border-color: #374151;
-  --shadow-color: rgba(59, 130, 246, 0.2);
-  
-  /* Text Type */
-  --text-color: #93c5fd;
-  --cursor-color: #93c5fd;
-  
-  /* Image */
-  --image-brightness: 0.9;
-}
-
-/* System preference dark mode */
-@media (prefers-color-scheme: dark) {
-  :root:not(.light) {
-    /* Backgrounds */
-    --background: #0a0a0a;
-    --foreground: #f3f4f6;
-    --hero-bg: #111827;
-    --hero-text: #ffffff;
-    --hero-subtitle: #93c5fd;
-    
-    /* Navbar */
-    --navbar-bg: rgba(17, 24, 39, 0.8);
-    --navbar-border: rgba(55, 65, 81, 0.3);
-    --navbar-text: #d1d5db;
-    --navbar-hover: #60a5fa;
-    --navbar-hover-bg: rgba(255, 255, 255, 0.05);
-    
-    /* Dropdown */
-    --dropdown-bg: rgba(17, 24, 39, 0.95);
-    --dropdown-border: rgba(55, 65, 81, 0.3);
-    
-    /* Borders & Shadows */
-    --border-color: #374151;
-    --shadow-color: rgba(59, 130, 246, 0.2);
-    
-    /* Text Type */
-    --text-color: #93c5fd;
-    --cursor-color: #93c5fd;
-    
-    /* Image */
-    --image-brightness: 0.9;
-  }
+  --navbar-bg: rgba(10, 15, 26, 0.9);
+  --navbar-border: rgba(42, 58, 74, 0.3);
+  --navbar-text: #e5e7eb;
+  --navbar-hover: #20b2aa;
 }
 
 /* Apply styles */
@@ -107,133 +130,135 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: background-color var(--transition-speed) ease, 
+              color var(--transition-speed) ease;
 }
 
-/* Hero Section Styles */
-.hero-section {
+/* Hero Section */
+.hero-bg {
   background-color: var(--hero-bg);
-  transition: background-color 0.3s ease;
+  transition: background-color var(--transition-speed) ease;
 }
 
 .hero-title {
-  color: var(--hero-text);
-  transition: color 0.3s ease;
+  color: var(--hero-title);
+  transition: color var(--transition-speed) ease;
 }
 
 .hero-subtitle {
   color: var(--hero-subtitle);
-  transition: color 0.3s ease;
+  transition: color var(--transition-speed) ease;
 }
 
-.hero-image {
-  filter: brightness(var(--image-brightness));
-  transition: filter 0.3s ease;
+/* Service Section */
+.service-section {
+  background-color: var(--service-bg);
+  transition: background-color var(--transition-speed) ease;
 }
 
-/* Text Type Component */
-.text-type-text {
-  color: var(--text-color);
-  transition: color 0.3s ease;
+.service-card {
+  background-color: var(--service-card-bg);
+  box-shadow: var(--service-shadow);
+  border: 1px solid var(--service-border);
+  transition: all var(--transition-speed) ease;
 }
 
-.text-type-cursor {
-  color: var(--cursor-color);
-  transition: color 0.3s ease;
+.service-card:hover {
+  border-color: var(--vivid-lime);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 60px rgba(191, 255, 0, 0.15);
 }
 
-/* Navbar Styles */
-.navbar-container {
+.service-icon {
+  color: var(--dark-cyan);
+  transition: color var(--transition-speed) ease;
+}
+
+.service-card:hover .service-icon {
+  color: var(--vivid-lime);
+}
+
+/* Social Proof Section */
+.social-section {
+  background-color: var(--social-bg);
+  transition: background-color var(--transition-speed) ease;
+}
+
+.social-text {
+  color: var(--social-text);
+  transition: color var(--transition-speed) ease;
+}
+
+.social-metric {
+  color: var(--social-metric);
+  transition: color var(--transition-speed) ease;
+}
+
+/* Contact Form */
+.contact-form {
+  background-color: var(--form-bg);
+  border: 1px solid var(--form-border);
+  color: var(--form-text);
+  transition: all var(--transition-speed) ease;
+}
+
+.contact-form:focus {
+  border-color: var(--vivid-lime);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(191, 255, 0, 0.2);
+}
+
+/* Buttons */
+.btn-primary {
+  background-color: var(--btn-primary-bg);
+  color: var(--btn-primary-text);
+  transition: all var(--transition-speed) ease;
+}
+
+.btn-primary:hover {
+  background-color: var(--btn-primary-hover);
+  transform: scale(1.05);
+}
+
+/* Footer */
+.footer {
+  background-color: var(--footer-bg);
+  transition: background-color var(--transition-speed) ease;
+}
+
+.footer-text {
+  color: var(--footer-text);
+  transition: color var(--transition-speed) ease;
+}
+
+.footer-link {
+  color: var(--footer-link);
+  transition: color var(--transition-speed) ease;
+}
+
+.footer-link:hover {
+  color: var(--footer-link-hover);
+}
+
+/* Navbar */
+.navbar-bg {
   background-color: var(--navbar-bg);
   border-color: var(--navbar-border);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  box-shadow: 0 10px 40px -10px var(--shadow-color);
-  transition: background-color 0.3s ease, 
-              border-color 0.3s ease,
-              box-shadow 0.3s ease;
+  transition: all var(--transition-speed) ease;
 }
 
 .navbar-text {
   color: var(--navbar-text);
-  transition: color 0.3s ease;
+  transition: color var(--transition-speed) ease;
 }
 
 .navbar-text:hover {
   color: var(--navbar-hover);
 }
 
-.navbar-hover-bg:hover {
-  background-color: var(--navbar-hover-bg);
-}
-
-/* Dropdown Styles */
-.dropdown-container {
-  background-color: var(--dropdown-bg);
-  border-color: var(--dropdown-border);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  transition: background-color 0.3s ease, 
-              border-color 0.3s ease;
-}
-
-.border-custom {
-  border-color: var(--border-color);
-  transition: border-color 0.3s ease;
-}
-
-/* Smooth transitions for all elements */
-* {
-  transition: background-color 0.3s ease, 
-              border-color 0.3s ease, 
-              color 0.3s ease,
-              box-shadow 0.3s ease,
-              filter 0.3s ease;
-}
-
-/* HTML and Scroll */
-html {
-  scroll-behavior: smooth;
-}
-
-section {
-  scroll-margin-top: 64px;
-}
-
-/* Utility Classes for Dark Mode */
-.dark .dark\:text-white {
-  color: #ffffff;
-}
-
-.dark .dark\:text-gray-300 {
-  color: #d1d5db;
-}
-
-.dark .dark\:text-blue-300 {
-  color: #93c5fd;
-}
-
-.dark .dark\:bg-gray-900 {
-  background-color: #111827;
-}
-
-.dark .dark\:bg-gray-800 {
-  background-color: #1f2937;
-}
-
-.dark .dark\:border-gray-700 {
-  border-color: #374151;
-}
-
-.dark .dark\:shadow-blue-900\/20 {
-  box-shadow: 0 10px 40px -10px rgba(30, 58, 138, 0.2);
-}
-
-.dark .dark\:brightness-90 {
-  filter: brightness(0.9);
-}
-
-/* Mobile Menu Animation */
+/* Animations */
 @keyframes slideDown {
   from {
     opacity: 0;
@@ -249,20 +274,67 @@ section {
   animation: slideDown 0.3s ease-out;
 }
 
-/* Bubble Animations */
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-5px); }
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.bubble-float {
-  animation: float 3s ease-in-out infinite;
+.animate-fadeInUp {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+/* Utility Classes */
+.bg-ice-blue {
+  background-color: var(--ice-blue);
+  transition: background-color var(--transition-speed) ease;
+}
+
+.text-slate-blue {
+  color: var(--slate-blue);
+  transition: color var(--transition-speed) ease;
+}
+
+.text-dark-cyan {
+  color: var(--dark-cyan);
+  transition: color var(--transition-speed) ease;
+}
+
+.text-vivid-lime {
+  color: var(--vivid-lime);
+  transition: color var(--transition-speed) ease;
+}
+
+.border-vivid-lime {
+  border-color: var(--vivid-lime);
+  transition: border-color var(--transition-speed) ease;
+}
+
+/* Smooth transitions for all elements */
+* {
+  transition: background-color var(--transition-speed) ease, 
+              border-color var(--transition-speed) ease, 
+              color var(--transition-speed) ease,
+              box-shadow var(--transition-speed) ease,
+              transform var(--transition-speed) ease;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+section {
+  scroll-margin-top: 80px;
 }
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 10px;
 }
 
 ::-webkit-scrollbar-track {
@@ -270,10 +342,10 @@ section {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(to bottom, #3b82f6, #8b5cf6);
+  background: linear-gradient(to bottom, var(--dark-cyan), var(--vivid-lime));
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(to bottom, #2563eb, #7c3aed);
+  background: linear-gradient(to bottom, var(--dark-cyan-light), var(--vivid-lime-dark));
 }
