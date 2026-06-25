@@ -62,8 +62,9 @@ export default function Hero() {
         <div className="w-full h-48 md:h-64 flex items-center justify-center">
           <img
             src="/Assets/FL.png"
-            alt="IMG"
+            alt="Futuristic digital technology illustration showing software development concepts"
             className="w-full h-full object-contain rounded-lg"
+            loading="lazy"
           />
         </div>
       </div>
