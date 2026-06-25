@@ -1,33 +1,126 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import ThemeToggle from './ui/theme';
+
+// Navigation links configuration
+const NAV_LINKS = [
+  { name: 'Home', path: '/' },
+  { name: 'Services', path: '/services' },
+  { name: 'About', path: '/about' },
+  { name: 'Portfolio', path: '/portfolio' },
+  { name: 'Contact', path: '/contact' }
+];
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const links = ['Home', 'Services', 'About', 'Portfolio', 'Contact'];
+  const [isMounted, setIsMounted] = useState(false);
+  const pathname = usePathname();
+  const menuRef = useRef(null);
+  const buttonRef = useRef(null);
+
+  // Handle mounting for animations
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  // Close menu on route change
+  useEffect(() => {
+    setIsOpen(false);
+  }, [pathname]);
+
+  // Handle click outside to close menu
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        isOpen && 
+        menuRef.current && 
+        !menuRef.current.contains(event.target) &&
+        buttonRef.current &&
+        !buttonRef.current.contains(event.target)
+      ) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [isOpen]);
+
+  // Handle escape key to close menu
+  useEffect(() => {
+    const handleEscape = (event) => {
+      if (event.key === 'Escape' && isOpen) {
+        setIsOpen(false);
+        buttonRef.current?.focus();
+      }
+    };
+
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, [isOpen]);
+
+  // Prevent body scroll when menu is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen]);
+
+  // Check if link is active
+  const isActiveLink = (path) => {
+    if (path === '/') {
+      return pathname === '/';
+    }
+    return pathname?.startsWith(path);
+  };
 
   return (
-    <nav className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 w-[95%] max-w-5xl">
+    <nav 
+      className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 w-[95%] max-w-5xl"
+      role="navigation"
+      aria-label="Main navigation"
+    >
       <div className="navbar-bg rounded-full px-4 md:px-6 py-3 border flex items-center justify-between gap-2">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2">
-          <div className="w-10 h-10 rounded-full bg-gradient-to-r from-dark-cyan to-vivid-lime flex items-center justify-center text-white font-bold text-sm">
+        <Link 
+          href="/" 
+          className="flex items-center gap-2 group focus:outline-none focus:ring-2 focus:ring-vivid-lime rounded-full"
+          aria-label="IMG Home page"
+        >
+          <div className="w-10 h-10 rounded-full bg-gradient-to-r from-dark-cyan to-vivid-lime flex items-center justify-center text-white font-bold text-sm transition-transform group-hover:scale-105">
             IMG
           </div>
-          <span className="navbar-text font-bold text-lg hidden sm:block">IMG</span>
+          <span className="navbar-text font-bold text-lg hidden sm:block">
+            IMG
+          </span>
         </Link>
 
         {/* Desktop Links */}
-        <div className="hidden md:flex items-center gap-1 lg:gap-2">
-          {links.map((link) => (
+        <div 
+          className="hidden md:flex items-center gap-1 lg:gap-2"
+          role="menubar"
+        >
+          {NAV_LINKS.map((link) => (
             <Link
-              key={link}
-              href={`/${link.toLowerCase()}`}
-              className="navbar-text px-3 lg:px-4 py-1.5 rounded-full hover:bg-dark-cyan/10 transition-all duration-300 text-sm font-medium"
+              key={link.path}
+              href={link.path}
+              role="menuitem"
+              aria-current={isActiveLink(link.path) ? 'page' : undefined}
+              className={`navbar-text px-3 lg:px-4 py-1.5 rounded-full transition-all duration-300 text-sm font-medium ${
+                isActiveLink(link.path)
+                  ? 'bg-dark-cyan/10 text-dark-cyan dark:text-vivid-lime'
+                  : 'hover:bg-dark-cyan/10'
+              }`}
             >
-              {link}
+              {link.name}
             </Link>
           ))}
         </div>
@@ -36,7 +129,8 @@ const NavBar = () => {
         <div className="flex items-center gap-2">
           <Link
             href="/contact"
-            className="hidden md:block px-4 lg:px-5 py-1.5 bg-vivid-lime text-slate-blue rounded-full text-sm font-semibold shadow-md hover:shadow-vivid-lime/25 transition-all duration-300 hover:scale-105 shrink-0"
+            className="hidden md:block px-4 lg:px-5 py-1.5 bg-vivid-lime text-slate-blue rounded-full text-sm font-semibold shadow-md hover:shadow-vivid-lime/25 transition-all duration-300 hover:scale-105 active:scale-95 shrink-0 focus:outline-none focus:ring-2 focus:ring-vivid-lime focus:ring-offset-2"
+            aria-label="Get a free audit of your software needs"
           >
             Get Free Audit
           </Link>
@@ -44,40 +138,72 @@ const NavBar = () => {
           <ThemeToggle />
           
           <button
+            ref={buttonRef}
             onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden w-10 h-10 rounded-full bg-gray-100/50 dark:bg-gray-700/50 hover:bg-gray-200/50 dark:hover:bg-gray-600/50 flex items-center justify-center transition-colors shrink-0"
-            aria-label="Toggle menu"
+            className="md:hidden w-10 h-10 rounded-full bg-gray-100/50 dark:bg-gray-700/50 hover:bg-gray-200/50 dark:hover:bg-gray-600/50 flex items-center justify-center transition-colors shrink-0 focus:outline-none focus:ring-2 focus:ring-vivid-lime"
+            aria-label={isOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={isOpen}
+            aria-controls="mobile-menu"
           >
-            <span className="navbar-text text-xl">
-              {isOpen ? '✕' : '☰'}
-            </span>
+            {/* SVG Icons instead of text symbols */}
+            <svg
+              className="w-5 h-5 navbar-text"
+              fill="none"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              {isOpen ? (
+                <path d="M6 18L18 6M6 6l12 12" />
+              ) : (
+                <path d="M4 6h16M4 12h16M4 18h16" />
+              )}
+            </svg>
           </button>
         </div>
       </div>
 
-      {/* Mobile Menu */}
-      {isOpen && (
-        <div className="md:hidden mt-3 bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl rounded-2xl p-4 shadow-2xl border border-white/20 dark:border-gray-700/30 flex flex-col gap-2 animate-slideDown">
-          {links.map((link) => (
-            <Link
-              key={link}
-              href={`/${link.toLowerCase()}`}
-              onClick={() => setIsOpen(false)}
-              className="navbar-text px-4 py-3 rounded-full hover:bg-dark-cyan/10 transition-all duration-300 text-center text-base"
-            >
-              {link}
-            </Link>
-          ))}
-          
+      {/* Mobile Menu - Fixed with better animation and accessibility */}
+      <div
+        id="mobile-menu"
+        ref={menuRef}
+        role="menu"
+        aria-hidden={!isOpen}
+        className={`md:hidden mt-3 bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl rounded-2xl p-4 shadow-2xl border border-white/20 dark:border-gray-700/30 flex flex-col gap-2 transition-all duration-300 ${
+          isOpen && isMounted
+            ? 'opacity-100 translate-y-0 pointer-events-auto'
+            : 'opacity-0 -translate-y-2 pointer-events-none'
+        }`}
+      >
+        {NAV_LINKS.map((link) => (
           <Link
-            href="/contact"
+            key={link.path}
+            href={link.path}
+            role="menuitem"
+            aria-current={isActiveLink(link.path) ? 'page' : undefined}
             onClick={() => setIsOpen(false)}
-            className="px-4 py-3 bg-vivid-lime text-slate-blue rounded-full text-center font-semibold shadow-md transition-all duration-300 hover:scale-105 text-base"
+            className={`navbar-text px-4 py-3 rounded-full transition-all duration-300 text-center text-base ${
+              isActiveLink(link.path)
+                ? 'bg-dark-cyan/10 text-dark-cyan dark:text-vivid-lime'
+                : 'hover:bg-dark-cyan/10'
+            }`}
           >
-            Get Free Audit
+            {link.name}
           </Link>
-        </div>
-      )}
+        ))}
+        
+        <Link
+          href="/contact"
+          onClick={() => setIsOpen(false)}
+          className="px-4 py-3 bg-vivid-lime text-slate-blue rounded-full text-center font-semibold shadow-md transition-all duration-300 hover:scale-105 active:scale-95 text-base focus:outline-none focus:ring-2 focus:ring-vivid-lime focus:ring-offset-2"
+          role="menuitem"
+          aria-label="Get a free audit of your software needs"
+        >
+          Free Audit
+        </Link>
+      </div>
     </nav>
   );
 };
