@@ -7,8 +7,8 @@
 /* CSS Variables */
 :root {
   --background: #ffffff;
-  --foreground: #171717;
-  --navbar-bg: #ffffff;
+  --foreground: #fafafa;
+  --navbar-bg: #ff0000;
   --navbar-text: #374151;
   --navbar-hover: #2563eb;
   --dropdown-bg: #ffffff;
