@@ -1,10 +1,7 @@
 import { Code2, Search, MousePointerClick, Instagram, Megaphone, ArrowUpRight } from "lucide-react";
-// npm install lucide-react
 
-// EDIT HERE — this array is the single source of truth for the services grid.
-// Add, remove, or reorder services freely; the layout adjusts automatically.
-// "code" mirrors a real catalog/ticket ID (ties into the status-panel concept
-// in the hero) rather than implying these are steps in a sequence.
+
+
 const SERVICES = [
   {
     code: "SVC-01",

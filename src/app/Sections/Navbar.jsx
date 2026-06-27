@@ -1,9 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Menu, X } from "lucide-react"; // npm install lucide-react
+import { Menu, X } from "lucide-react"; 
 
-// EDIT HERE — nav links and labels
 const NAV_LINKS = [
   { label: "Services", href: "#services" },
   { label: "Results", href: "#testimonials" },
@@ -16,7 +15,6 @@ export default function Navbar() {
   return (
     <header className="sticky top-0 z-50 border-b border-line bg-ink/90 backdrop-blur-md">
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-        {/* LOGO — swap this text/SVG for your real logo */}
         <a href="/" className="flex items-center gap-2">
           <span className="h-2 w-2 rounded-full bg-signal" aria-hidden="true" />
           <span className="font-display text-lg font-bold tracking-tight text-paper">
@@ -24,7 +22,6 @@ export default function Navbar() {
           </span>
         </a>
 
-        {/* DESKTOP LINKS */}
         <div className="hidden items-center gap-8 md:flex">
           {NAV_LINKS.map((link) => (
             <a
@@ -43,7 +40,6 @@ export default function Navbar() {
           </a>
         </div>
 
-        {/* MOBILE TOGGLE */}
         <button
           type="button"
           onClick={() => setIsOpen((prev) => !prev)}
@@ -55,7 +51,6 @@ export default function Navbar() {
         </button>
       </nav>
 
-      {/* MOBILE MENU PANEL */}
       {isOpen && (
         <div className="border-t border-line bg-ink px-6 py-4 md:hidden">
           <div className="flex flex-col gap-4">

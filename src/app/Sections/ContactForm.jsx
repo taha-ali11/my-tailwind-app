@@ -2,10 +2,8 @@
 
 import { useRef, useState } from "react";
 import { Turnstile } from "@marsidev/react-turnstile";
-// npm install @marsidev/react-turnstile lucide-react
 import { Lock, ShieldCheck, Clock3, CheckCircle2, AlertTriangle, Loader2 } from "lucide-react";
 
-// EDIT HERE — dropdown options. Keep these in sync with ServicesGrid.jsx.
 const SERVICE_OPTIONS = [
   "Web Development",
   "SEO",
@@ -23,9 +21,6 @@ const INITIAL_FORM_STATE = {
   brief: "",
 };
 
-// Lightweight client-side validation — keeps bad submissions from ever
-// hitting your API route. Server-side validation still happens in
-// app/api/contact/route.js, so don't treat this as the only safety net.
 function validate(form) {
   const errors = {};
 
@@ -37,7 +32,6 @@ function validate(form) {
     errors.email = "Enter a valid email address.";
   }
 
-  // Phone is optional, but if provided it should look like a phone number.
   if (form.phone.trim() && !/^[0-9+\-()\s]{7,20}$/.test(form.phone)) {
     errors.phone = "Enter a valid phone number.";
   }
@@ -56,9 +50,7 @@ function validate(form) {
 export default function ContactForm() {
   const [form, setForm] = useState(INITIAL_FORM_STATE);
   const [errors, setErrors] = useState({});
-  // status: "idle" | "submitting" | "success" | "error"
   const [status, setStatus] = useState("idle");
-  // Dynamic message from the API response — shown in the error banner below.
   const [serverMessage, setServerMessage] = useState("");
 
   // ── Cloudflare Turnstile state ──────────────────────────────────────────
