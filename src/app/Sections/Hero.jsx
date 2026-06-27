@@ -98,7 +98,7 @@ export default function Hero() {
         <div className="relative w-full h-48 md:h-64">
           {!imageError ? (
             <Image
-              src="/assets/fl.png"
+              src="/public/assets/heroimage.Webp"
               alt="Digital transformation and software development illustration showing modern technology solutions"
               fill
               className="object-contain rounded-lg"
