@@ -1,3 +1,4 @@
+import Image from "next/image";
 import StatusPanel from "../components/StatusPanel";
 
 export default function Hero() {
@@ -13,7 +14,9 @@ export default function Hero() {
         aria-hidden="true"
       />
 
-      <div className="relative mx-auto grid max-w-6xl gap-12 px-6 py-20 md:grid-cols-2 md:items-center md:py-28">
+      {/* Reduced padding from py-20 to py-12 and md:py-20 */}
+      <div className="relative mx-auto grid max-w-6xl gap-12 px-6 py-12 md:grid-cols-2 md:items-center md:py-16">
+        {/* Left Column */}
         <div>
           <span className="font-mono text-xs uppercase tracking-[0.2em] text-trace">
             Web + Growth Agency
@@ -59,7 +62,21 @@ export default function Hero() {
           </dl>
         </div>
 
-        <div className="flex justify-center md:justify-end">
+        {/* Right Column */}
+        <div className="flex flex-col items-center gap-4 md:items-end">
+          {/* Image */}
+          <div className="relative w-full max-w-xs overflow-hidden rounded-xl">
+            <Image
+              src="/assets/heroimage.Webp"
+              alt="Dashboard preview showing growth stack status"
+              width={400}
+              height={300}
+              className="h-auto w-full object-cover"
+              priority
+            />
+          </div>
+
+          {/* Status Panel */}
           <StatusPanel />
         </div>
       </div>
