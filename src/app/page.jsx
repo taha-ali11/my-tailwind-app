@@ -1,11 +1,19 @@
-// app/page.jsx
-import Link from 'next/link';  
-import Hero from "./sections/hero";
+import Navbar from "./sections/Navbar";
+import Hero from "./sections/Hero";
+import ServicesGrid from "./sections/ServicesGrid";
+import Testimonials from "./sections/Testimonials";
+import ContactForm from "./sections/ContactForm";
+import Footer from "./sections/Footer";
 
-export default function Home() {
+export default function HomePage() {
   return (
-    <>
-      <Hero/>
-    </>
+    <main>
+      <Navbar />
+      <Hero />
+      <ServicesGrid />
+      <Testimonials />
+      <ContactForm />
+      <Footer />
+    </main>
   );
 }
