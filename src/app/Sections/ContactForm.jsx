@@ -2,8 +2,11 @@
 
 import { useRef, useState } from "react";
 import { Turnstile } from "@marsidev/react-turnstile";
+// npm install @marsidev/react-turnstile lucide-react
 import { Lock, ShieldCheck, Clock3, CheckCircle2, AlertTriangle, Loader2 } from "lucide-react";
+import Reveal from "../components/Reveal";
 
+// EDIT HERE — dropdown options. Keep these in sync with ServicesGrid.jsx.
 const SERVICE_OPTIONS = [
   "Web Development",
   "SEO",
@@ -21,10 +24,15 @@ const INITIAL_FORM_STATE = {
   brief: "",
 };
 
+// Lightweight client-side validation — keeps bad submissions from ever
+// hitting your API route. Server-side validation still happens in
+// app/api/contact/route.js, so don't treat this as the only safety net.
 function validate(form) {
   const errors = {};
 
-  if (!form.name.trim()) errors.name = "Name is required.";
+  if (!form.name.trim() || form.name.trim().length < 2) {
+    errors.name = "Enter your full name (at least 2 characters).";
+  }
 
   if (!form.email.trim()) {
     errors.email = "Email is required.";
@@ -32,6 +40,7 @@ function validate(form) {
     errors.email = "Enter a valid email address.";
   }
 
+  // Phone is optional, but if provided it should look like a phone number.
   if (form.phone.trim() && !/^[0-9+\-()\s]{7,20}$/.test(form.phone)) {
     errors.phone = "Enter a valid phone number.";
   }
@@ -50,7 +59,9 @@ function validate(form) {
 export default function ContactForm() {
   const [form, setForm] = useState(INITIAL_FORM_STATE);
   const [errors, setErrors] = useState({});
+  // status: "idle" | "submitting" | "success" | "error"
   const [status, setStatus] = useState("idle");
+  // Dynamic message from the API response — shown in the error banner below.
   const [serverMessage, setServerMessage] = useState("");
 
   // ── Cloudflare Turnstile state ──────────────────────────────────────────
@@ -61,6 +72,14 @@ export default function ContactForm() {
   const [turnstileToken, setTurnstileToken] = useState(null);
   const [turnstileError, setTurnstileError] = useState(false);
   const turnstileRef = useRef(null);
+
+  // True once you've added a real site key to .env.local. Until then, the
+  // widget has nothing to render — so instead of silently showing nothing
+  // (and blocking the button forever), we show a styled placeholder and let
+  // the form submit normally. Flip this on automatically the moment your
+  // NEXT_PUBLIC_TURNSTILE_SITE_KEY env var is set — no code change needed.
+  const hasTurnstileSiteKey = Boolean(process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY);
+  const canSubmit = hasTurnstileSiteKey ? Boolean(turnstileToken) : true;
 
   // Turnstile tokens are single-use and short-lived, so we fetch a fresh one
   // after every submit attempt — whether it succeeded or failed.
@@ -87,7 +106,8 @@ export default function ContactForm() {
 
     // Don't even attempt the request without a completed challenge —
     // the API route enforces this too, but failing fast saves a round trip.
-    if (!turnstileToken) {
+    // (Skipped entirely if Turnstile isn't configured yet — see canSubmit above.)
+    if (!canSubmit) {
       setStatus("error");
       setServerMessage("Please complete the verification check before sending.");
       return;
@@ -131,6 +151,7 @@ export default function ContactForm() {
       <div className="mx-auto max-w-6xl px-6 py-20 md:py-28">
         <div className="grid gap-12 md:grid-cols-[1.1fr_0.9fr]">
           {/* ─────────────────────────── FORM COLUMN ─────────────────────────── */}
+          <Reveal direction="left">
           <div>
             {/* EDIT HERE — section header */}
             <span className="font-mono text-xs uppercase tracking-[0.2em] text-trace">
@@ -171,7 +192,7 @@ export default function ContactForm() {
 
             {/* FORM — hidden after a successful submission */}
             {status !== "success" && (
-              <form onSubmit={handleSubmit} noValidate className="mt-8 space-y-5">
+              <form onSubmit={handleSubmit} noValidate className="mt-8 space-y-7">
                 {/* ERROR BANNER — shown only if the request itself failed */}
                 {status === "error" && (
                   <div
@@ -184,8 +205,8 @@ export default function ContactForm() {
                       {serverMessage || "Something went wrong sending your message."} Try
                       again, or email us directly at{" "}
                       {/* EDIT HERE — fallback contact email */}
-                      <a href="mailto:hello@northbeam.agency" className="text-trace underline">
-                        hello@northbeam.agency
+                      <a href="mailto:hello@@DevX.agency" className="text-trace underline">
+                        hello@@DevX.agency
                       </a>
                       .
                     </p>
@@ -195,7 +216,7 @@ export default function ContactForm() {
                 {/* NAME */}
                 <div>
                   <label htmlFor="name" className="font-mono text-xs uppercase tracking-wider text-muted">
-                    Name
+                    Name <span className="text-signal">*</span>
                   </label>
                   <input
                     id="name"
@@ -205,7 +226,7 @@ export default function ContactForm() {
                     value={form.name}
                     onChange={handleChange}
                     placeholder="Jordan Lee"
-                    className={`mt-2 w-full rounded-md border bg-surface px-4 py-3 text-paper placeholder:text-muted/60 focus:outline-none focus:ring-2 focus:ring-signal ${
+                    className={`mt-2 h-12 w-full rounded-lg border bg-surface px-4 text-base text-paper placeholder:text-muted/60 focus:outline-none focus:border-signal focus:ring-2 focus:ring-signal ${
                       errors.name ? "border-danger" : "border-line"
                     }`}
                     aria-invalid={Boolean(errors.name)}
@@ -222,7 +243,7 @@ export default function ContactForm() {
                 <div className="grid gap-5 sm:grid-cols-2">
                   <div>
                     <label htmlFor="email" className="font-mono text-xs uppercase tracking-wider text-muted">
-                      Email
+                      Email <span className="text-signal">*</span>
                     </label>
                     <input
                       id="email"
@@ -232,7 +253,7 @@ export default function ContactForm() {
                       value={form.email}
                       onChange={handleChange}
                       placeholder="jordan@company.com"
-                      className={`mt-2 w-full rounded-md border bg-surface px-4 py-3 text-paper placeholder:text-muted/60 focus:outline-none focus:ring-2 focus:ring-signal ${
+                      className={`mt-2 h-12 w-full rounded-lg border bg-surface px-4 text-base text-paper placeholder:text-muted/60 focus:outline-none focus:border-signal focus:ring-2 focus:ring-signal ${
                         errors.email ? "border-danger" : "border-line"
                       }`}
                       aria-invalid={Boolean(errors.email)}
@@ -257,7 +278,7 @@ export default function ContactForm() {
                       value={form.phone}
                       onChange={handleChange}
                       placeholder="+1 (555) 000-0000"
-                      className={`mt-2 w-full rounded-md border bg-surface px-4 py-3 text-paper placeholder:text-muted/60 focus:outline-none focus:ring-2 focus:ring-signal ${
+                      className={`mt-2 h-12 w-full rounded-lg border bg-surface px-4 text-base text-paper placeholder:text-muted/60 focus:outline-none focus:border-signal focus:ring-2 focus:ring-signal ${
                         errors.phone ? "border-danger" : "border-line"
                       }`}
                       aria-invalid={Boolean(errors.phone)}
@@ -274,14 +295,14 @@ export default function ContactForm() {
                 {/* SERVICE NEEDED — dropdown */}
                 <div>
                   <label htmlFor="service" className="font-mono text-xs uppercase tracking-wider text-muted">
-                    Service needed
+                    Service needed <span className="text-signal">*</span>
                   </label>
                   <select
                     id="service"
                     name="service"
                     value={form.service}
                     onChange={handleChange}
-                    className={`mt-2 w-full rounded-md border bg-surface px-4 py-3 text-paper focus:outline-none focus:ring-2 focus:ring-signal ${
+                    className={`mt-2 h-12 w-full rounded-lg border bg-surface px-4 text-base text-paper focus:outline-none focus:border-signal focus:ring-2 focus:ring-signal ${
                       errors.service ? "border-danger" : "border-line"
                     } ${form.service === "" ? "text-muted/60" : ""}`}
                     aria-invalid={Boolean(errors.service)}
@@ -306,26 +327,36 @@ export default function ContactForm() {
                 {/* PROJECT BRIEF */}
                 <div>
                   <label htmlFor="brief" className="font-mono text-xs uppercase tracking-wider text-muted">
-                    Project brief
+                    Project brief <span className="text-signal">*</span>
                   </label>
                   <textarea
                     id="brief"
                     name="brief"
                     rows={5}
+                    maxLength={600}
                     value={form.brief}
                     onChange={handleChange}
-                    placeholder="What are you trying to achieve, and by when?"
-                    className={`mt-2 w-full resize-none rounded-md border bg-surface px-4 py-3 text-paper placeholder:text-muted/60 focus:outline-none focus:ring-2 focus:ring-signal ${
+                    placeholder="e.g., We need a 5-page site redesign plus ongoing SEO before our Q4 launch."
+                    className={`mt-2 min-h-[120px] w-full resize-y rounded-lg border bg-surface px-4 py-3 text-base text-paper placeholder:text-muted/60 focus:outline-none focus:border-signal focus:ring-2 focus:ring-signal ${
                       errors.brief ? "border-danger" : "border-line"
                     }`}
                     aria-invalid={Boolean(errors.brief)}
-                    aria-describedby={errors.brief ? "brief-error" : undefined}
+                    aria-describedby={errors.brief ? "brief-error" : "brief-hint"}
                   />
                   {errors.brief && (
                     <p id="brief-error" className="mt-1.5 text-xs text-danger">
                       {errors.brief}
                     </p>
                   )}
+                  {/* EDIT HERE — helper copy + live character count, capped at maxLength above */}
+                  <div className="mt-1.5 flex items-center justify-between gap-3">
+                    <p id="brief-hint" className="text-xs text-muted">
+                      Brief but specific — we'll handle the rest.
+                    </p>
+                    <span className="shrink-0 font-mono text-xs text-muted">
+                      {form.brief.length}/600
+                    </span>
+                  </div>
                 </div>
 
                 {/* ─────────────────────── CLOUDFLARE TURNSTILE ───────────────────────
@@ -334,26 +365,35 @@ export default function ContactForm() {
                     script tag needed. onSuccess fires with a one-time-use token that
                     gets sent to the API route and re-verified server-side. */}
                 <div>
-                  <Turnstile
-                    ref={turnstileRef}
-                    // EDIT HERE — paste your Cloudflare Turnstile SITE KEY into
-                    // NEXT_PUBLIC_TURNSTILE_SITE_KEY in .env.local (safe to expose
-                    // client-side — it's the public half of the key pair).
-                    siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY}
-                    onSuccess={(token) => {
-                      setTurnstileToken(token);
-                      setTurnstileError(false);
-                    }}
-                    onError={() => {
-                      setTurnstileToken(null);
-                      setTurnstileError(true);
-                    }}
-                    onExpire={() => setTurnstileToken(null)}
-                    options={{ theme: "dark", size: "flexible" }}
-                  />
-                  {turnstileError && (
+                  <span className="font-mono text-xs uppercase tracking-wider text-muted">
+                    Security check
+                  </span>
+                  <div className="mt-2">
+                    <Turnstile
+                      ref={turnstileRef}
+                      // EDIT HERE — paste your Cloudflare Turnstile SITE KEY into
+                      // NEXT_PUBLIC_TURNSTILE_SITE_KEY in .env.local (safe to expose
+                      // client-side — it's the public half of the key pair).
+                      siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY}
+                      onSuccess={(token) => {
+                        setTurnstileToken(token);
+                        setTurnstileError(false);
+                      }}
+                      onError={() => {
+                        setTurnstileToken(null);
+                        setTurnstileError(true);
+                      }}
+                      onExpire={() => setTurnstileToken(null)}
+                      options={{ theme: "dark", size: "flexible" }}
+                    />
+                  </div>
+                  {turnstileError ? (
                     <p className="mt-2 text-xs text-danger">
                       Verification failed to load. Refresh the page and try again.
+                    </p>
+                  ) : (
+                    <p className="mt-2 text-xs text-muted">
+                      Protects this form from spam — nothing else is shared.
                     </p>
                   )}
                 </div>
@@ -361,8 +401,8 @@ export default function ContactForm() {
                 {/* SUBMIT */}
                 <button
                   type="submit"
-                  disabled={isSubmitting || !turnstileToken}
-                  className="flex w-full items-center justify-center gap-2 rounded-md bg-signal px-6 py-3.5 font-mono text-sm font-medium uppercase tracking-wider text-ink transition-transform hover:-translate-y-0.5 hover:bg-signal/90 disabled:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60"
+                  disabled={isSubmitting || !canSubmit}
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-signal px-12 py-[18px] font-mono text-sm font-bold uppercase tracking-wider text-ink transition-transform hover:-translate-y-0.5 hover:bg-signal/90 disabled:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60 md:w-auto"
                 >
                   {isSubmitting ? (
                     <>
@@ -373,17 +413,27 @@ export default function ContactForm() {
                     "Send Project Brief"
                   )}
                 </button>
-                {!turnstileToken && !isSubmitting && (
-                  <p className="text-center text-xs text-muted">
-                    Complete the verification above to enable sending.
-                  </p>
-                )}
+
+                {/* EDIT HERE — fallback contact, shown in place of the old
+                    "complete verification" notice. Same destination as the
+                    other two mailto links in this component. */}
+                <p className="font-mono text-xs text-muted">
+                  Prefer email? Reach us directly at{" "}
+                  <a
+                    href="mailto:hello@@DevX.agency"
+                    className="text-trace underline transition-colors hover:text-paper"
+                  >
+                    hello@@DevX.agency
+                  </a>
+                </p>
               </form>
             )}
           </div>
+          </Reveal>
 
           {/* ─────────────────────────── TRUST PANEL COLUMN ─────────────────────────── */}
-          <div className="rounded-xl border border-line bg-surface p-6 md:p-8">
+          <Reveal direction="right" delay={150} className="h-full">
+          <div className="h-full rounded-xl border border-line bg-surface p-6 md:p-8">
             <h3 className="font-mono text-xs uppercase tracking-wider text-muted">
               What happens after you send this
             </h3>
@@ -413,12 +463,13 @@ export default function ContactForm() {
               <p className="font-mono text-[11px] text-muted">
                 Prefer email? Reach us directly at{" "}
                 {/* EDIT HERE — fallback contact email, repeated for visibility */}
-                <a href="mailto:hello@northbeam.agency" className="text-trace underline">
-                  hello@northbeam.agency
+                <a href="mailto:hello@@DevX.agency" className="text-trace underline">
+                  hello@@DevX.agency
                 </a>
               </p>
             </div>
           </div>
+          </Reveal>
         </div>
       </div>
     </section>
