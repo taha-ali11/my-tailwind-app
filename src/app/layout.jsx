@@ -10,8 +10,8 @@ export const metadata = {
   description: "Web development, SEO, Google Ads, and content — engineered like infrastructure, monitored like one too.",
   icons: {
     icon: "/icon.png",
-    shortcut: "/favicon.ico",
-    apple: "/apple-icon.png",
+    shortcut: "/devxlogo.ico",
+    apple: "/devxlogo.png",
   },
 };
 
