@@ -19,7 +19,7 @@ export default function Hero() {
         aria-hidden="true"
       />
 
-      <div className="relative mx-auto grid max-w-6xl gap-12 px-6 py-20 md:grid-cols-2 md:items-center md:py-28">
+      <div className="relative mx-auto grid max-w-6xl gap-12 px-6 py-14 md:grid-cols-2 md:items-center md:py-16">
         {/* LEFT COLUMN — copy + CTAs — fades up from below as it enters the viewport */}
         <Reveal direction="up">
           <div>

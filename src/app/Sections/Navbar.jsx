@@ -5,7 +5,7 @@ import { Menu, X } from "lucide-react"; // npm install lucide-react
 
 // EDIT HERE — nav links and labels
 const NAV_LINKS = [
-  { label: "Home", href: "#home" }, 
+  { label: "Home", href: "#home" },
   { label: "Services", href: "#services" },
   { label: "Results", href: "#testimonials" },
   { label: "Contact", href: "#contact" },
@@ -64,9 +64,8 @@ export default function Navbar() {
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
         {/* LOGO — swap this text/SVG for your real logo */}
         <a href="/" className="flex items-center gap-2">
-          <span className="h-2 w-2 rounded-full bg-signal" aria-hidden="true" />
-          <span className="font-display text-lg font-bold tracking-tight text-paper">
-            Northbeam<span className="text-signal">.</span>
+          <span className="font-display text-2xl font-bold tracking-tight bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">
+            @DevX
           </span>
         </a>
 
