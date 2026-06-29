@@ -14,6 +14,7 @@
   --shadow-panel: 0 0 0 1px #232A38, 0 20px 60px -20px rgba(0,0,0,0.6);
   --animate-scan: scan 4s linear infinite;
   --animate-fade-in-down: fade-in-down 0.5s ease-out both;
+  --animate-marquee: marquee 35s linear infinite;
 }
 
 
@@ -22,6 +23,10 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
 
 @keyframes scan {
   0% { transform: translateY(-100%); }
