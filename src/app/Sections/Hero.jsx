@@ -7,7 +7,7 @@ import Image from "next/image";
 
 export default function Hero() {
   return (
-    <section className="relative overflow-hidden border-b border-line">
+    <section id="home" className="relative overflow-hidden border-b border-line">
       {/* faint background grid — purely atmospheric, sits behind the content */}
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.07]"

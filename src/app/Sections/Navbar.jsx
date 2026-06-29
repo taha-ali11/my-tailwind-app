@@ -5,6 +5,7 @@ import { Menu, X } from "lucide-react"; // npm install lucide-react
 
 // EDIT HERE — nav links and labels
 const NAV_LINKS = [
+  { label: "Home", href: "#home" }, 
   { label: "Services", href: "#services" },
   { label: "Results", href: "#testimonials" },
   { label: "Contact", href: "#contact" },
