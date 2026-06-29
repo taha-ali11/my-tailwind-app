@@ -94,33 +94,9 @@ export default function PrivacyPolicyPage() {
                 your interaction with us.
               </p>
 
-              <SubSection letter="A" title={'Information You Provide Directly ("Client Data")'}>
-                <p>When you inquire about or purchase our services, we collect:</p>
-                <ul className="list-disc space-y-2 pl-5">
-                  <li>
-                    <span className="font-medium text-paper">Contact &amp; Business Information:</span>{" "}
-                    Name, company name, job title, email address, phone number,
-                    physical/mailing address.
-                  </li>
-                  <li>
-                    {/* EDIT HERE — [Stripe/PayPal/Other], and confirm this site
-                        actually collects payment info before publishing */}
-                    <span className="font-medium text-paper">Payment Information:</span>{" "}
-                    Credit card details, billing address, and bank account
-                    information. (Note: We do not store full payment card
-                    numbers; they are processed by our PCI-compliant payment
-                    processor, [Stripe/PayPal/Other].)
-                  </li>
-                  <li>
-                    <span className="font-medium text-paper">Project Data:</span>{" "}
-                    Website content, branding assets, login credentials (for
-                    hosting, domain, CMS), marketing copy, target audience data,
-                    and advertising creative provided to us for service delivery.
-                  </li>
-                </ul>
-              </SubSection>
+              
 
-              <SubSection letter="B" title="Data We Access or Create During Service Delivery">
+              <SubSection letter="A" title="Data We Access or Create During Service Delivery">
                 <p>
                   To provide web development, SEO, and Google Ads services, we
                   may require access to, or create data within, your accounts:
@@ -146,7 +122,7 @@ export default function PrivacyPolicyPage() {
                 </ul>
               </SubSection>
 
-              <SubSection letter="C" title="Information Collected Automatically (Website Visitors)">
+              <SubSection letter="B" title="Information Collected Automatically (Website Visitors)">
                 <p>When you visit our website, we use standard technologies to collect:</p>
                 <ul className="list-disc space-y-2 pl-5">
                   <li>
@@ -154,14 +130,6 @@ export default function PrivacyPolicyPage() {
                     IP address, browser type/version, pages visited, time and
                     date of visit, time spent on pages, and referring website
                     address.
-                  </li>
-                  <li>
-                    <span className="font-medium text-paper">
-                      Cookies &amp; Tracking Technologies:
-                    </span>{" "}
-                    Cookies, web beacons, and pixels to analyze trends,
-                    administer the site, and track users' movements. You can
-                    control cookie settings via your browser. See Section 9.
                   </li>
                 </ul>
               </SubSection>
@@ -372,11 +340,7 @@ export default function PrivacyPolicyPage() {
                   Analytics (to understand traffic). We anonymize IP addresses
                   where possible.
                 </li>
-                <li>
-                  <span className="font-medium text-paper">Advertising Cookies:</span> We may
-                  use Meta Pixel or Google Ads remarketing tags to show you
-                  relevant ads on other platforms.
-                </li>
+                
               </ul>
               <p>
                 You can manage your preferences in your browser settings or
