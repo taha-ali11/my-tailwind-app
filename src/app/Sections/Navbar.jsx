@@ -10,8 +10,48 @@ const NAV_LINKS = [
   { label: "Contact", href: "#contact" },
 ];
 
+// ─────────────────────────────────────────────────────────────────────────
+// Custom smooth scroll — the browser's native `scroll-behavior: smooth`
+// (set in globals.css) animates, but every browser picks its own speed and
+// you can't slow it down from CSS alone. This intercepts the click instead
+// and animates the scroll ourselves over a fixed, controllable duration.
+//
+//   duration       EDIT HERE — higher = slower/smoother, lower = snappier
+//   navbarOffset   EDIT HERE — should roughly match the navbar's own height,
+//                  so a section's heading doesn't end up tucked behind it
+// ─────────────────────────────────────────────────────────────────────────
+function smoothScrollTo(hash, duration = 800) {
+  const target = document.querySelector(hash);
+  if (!target) return;
+
+  const navbarOffset = 72;
+  const startY = window.scrollY;
+  const targetY = target.getBoundingClientRect().top + startY - navbarOffset;
+  const distance = targetY - startY;
+  const startTime = performance.now();
+
+  function easeInOutCubic(t) {
+    return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  }
+
+  function step(now) {
+    const elapsed = now - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    window.scrollTo(0, startY + distance * easeInOutCubic(progress));
+    if (progress < 1) requestAnimationFrame(step);
+  }
+
+  requestAnimationFrame(step);
+}
+
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+
+  function handleNavClick(event, href) {
+    event.preventDefault();
+    smoothScrollTo(href);
+    setIsOpen(false); // no-op on desktop, closes the mobile panel when open
+  }
 
   return (
     // Note: the navbar deliberately doesn't use the scroll-triggered <Reveal>
@@ -35,6 +75,7 @@ export default function Navbar() {
             <a
               key={link.href}
               href={link.href}
+              onClick={(event) => handleNavClick(event, link.href)}
               className="font-mono text-xs uppercase tracking-wider text-muted transition-colors hover:text-paper"
             >
               {link.label}
@@ -42,6 +83,7 @@ export default function Navbar() {
           ))}
           <a
             href="#contact"
+            onClick={(event) => handleNavClick(event, "#contact")}
             className="rounded-md bg-signal px-4 py-2 font-mono text-xs font-medium uppercase tracking-wider text-ink transition-transform hover:-translate-y-0.5 hover:bg-signal/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-signal"
           >
             Start a Project
@@ -68,7 +110,7 @@ export default function Navbar() {
               <a
                 key={link.href}
                 href={link.href}
-                onClick={() => setIsOpen(false)}
+                onClick={(event) => handleNavClick(event, link.href)}
                 className="font-mono text-sm uppercase tracking-wider text-muted hover:text-paper"
               >
                 {link.label}
@@ -76,7 +118,7 @@ export default function Navbar() {
             ))}
             <a
               href="#contact"
-              onClick={() => setIsOpen(false)}
+              onClick={(event) => handleNavClick(event, "#contact")}
               className="rounded-md bg-signal px-4 py-2 text-center font-mono text-xs font-medium uppercase tracking-wider text-ink"
             >
               Start a Project

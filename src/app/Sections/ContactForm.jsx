@@ -205,8 +205,8 @@ export default function ContactForm() {
                       {serverMessage || "Something went wrong sending your message."} Try
                       again, or email us directly at{" "}
                       {/* EDIT HERE — fallback contact email */}
-                      <a href="mailto:hello@@DevX.agency" className="text-trace underline">
-                        hello@@DevX.agency
+                      <a href="mailto:hello@DevX.agency" className="text-trace underline">
+                        hello@DevX.agency
                       </a>
                       .
                     </p>
@@ -402,7 +402,7 @@ export default function ContactForm() {
                 <button
                   type="submit"
                   disabled={isSubmitting || !canSubmit}
-                  className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-signal px-12 py-[18px] font-mono text-sm font-bold uppercase tracking-wider text-ink transition-transform hover:-translate-y-0.5 hover:bg-signal/90 disabled:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60 md:w-auto"
+                  className="flex w-full items-center justify-center gap-2 rounded-md bg-signal px-6 py-3.5 font-mono text-sm font-medium uppercase tracking-wider text-ink transition-transform hover:-translate-y-0.5 hover:bg-signal/90 disabled:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60"
                 >
                   {isSubmitting ? (
                     <>
@@ -420,10 +420,10 @@ export default function ContactForm() {
                 <p className="font-mono text-xs text-muted">
                   Prefer email? Reach us directly at{" "}
                   <a
-                    href="mailto:hello@@DevX.agency"
+                    href="mailto:hello@DevX.agency"
                     className="text-trace underline transition-colors hover:text-paper"
                   >
-                    hello@@DevX.agency
+                    hello@DevX.agency
                   </a>
                 </p>
               </form>
@@ -432,7 +432,7 @@ export default function ContactForm() {
           </Reveal>
 
           {/* ─────────────────────────── TRUST PANEL COLUMN ─────────────────────────── */}
-          <Reveal direction="right" delay={150} className="h-full">
+          <Reveal direction="right" delay={150} className="h-full pt-44 pb-48 ">
           <div className="h-full rounded-xl border border-line bg-surface p-6 md:p-8">
             <h3 className="font-mono text-xs uppercase tracking-wider text-muted">
               What happens after you send this
@@ -463,11 +463,46 @@ export default function ContactForm() {
               <p className="font-mono text-[11px] text-muted">
                 Prefer email? Reach us directly at{" "}
                 {/* EDIT HERE — fallback contact email, repeated for visibility */}
-                <a href="mailto:hello@@DevX.agency" className="text-trace underline">
-                  hello@@DevX.agency
+                <a href="mailto:hello@DevX.agency" className="text-trace underline">
+                  hello@DevX.agency
                 </a>
               </p>
             </div>
+
+            {/* EDIT HERE — swap these for real numbers once you have them.
+                Mirrors the stat-strip style used in Hero.jsx, so the panel
+                doesn't run out of content and trail off into empty space. */}
+            <div className="mt-6 border-t border-line pt-5">
+              <p className="font-mono text-[11px] uppercase tracking-wider text-muted">
+                By the numbers
+              </p>
+              <dl className="mt-4 grid grid-cols-2 gap-4">
+                <div>
+                  <dt className="font-mono text-[11px] text-muted">Avg. first reply</dt>
+                  <dd className="mt-1 font-display text-lg font-bold text-paper">4 hrs</dd>
+                </div>
+                <div>
+                  <dt className="font-mono text-[11px] text-muted">Projects shipped</dt>
+                  <dd className="mt-1 font-display text-lg font-bold text-paper">40+</dd>
+                </div>
+                <div>
+                  <dt className="font-mono text-[11px] text-muted">Client retention</dt>
+                  <dd className="mt-1 font-display text-lg font-bold text-paper">92%</dd>
+                </div>
+                <div>
+                  <dt className="font-mono text-[11px] text-muted">Years running</dt>
+                  <dd className="mt-1 font-display text-lg font-bold text-paper">5</dd>
+                </div>
+              </dl>
+            </div>
+
+            {/* EDIT HERE — your guarantee. A concrete, specific promise reads
+                as more credible than generic reassurance copy. */}
+            <p className="mt-6 border-t border-line pt-5 text-sm text-paper">
+              <span className="font-medium">Our promise:</span> if you don't hear back
+              within one business day, the next reply comes straight from our founder
+              — no exceptions.
+            </p>
           </div>
           </Reveal>
         </div>
