@@ -1,7 +1,6 @@
 import StatusPanel from "../components/StatusPanel";
 import Reveal from "../components/Reveal";
 import Image from "next/image";
-
 // Server component — no useState/useEffect here, so this section ships
 // zero extra client-side JS. Keeps the largest, most important part of the
 // page fast on first paint (good for Core Web Vitals + conversion).
@@ -20,7 +19,7 @@ export default function Hero() {
         aria-hidden="true"
       />
 
-      <div className="relative mx-auto grid max-w-6xl gap-12 px-6 py-16 md:grid-cols-2 md:items-center md:py-24">
+      <div className="relative mx-auto grid max-w-6xl gap-12 px-6 py-20 md:grid-cols-2 md:items-center md:py-28">
         {/* LEFT COLUMN — copy + CTAs — fades up from below as it enters the viewport */}
         <Reveal direction="up">
           <div>
@@ -77,7 +76,6 @@ export default function Hero() {
         {/* RIGHT COLUMN — signature status panel — slides in from the right */}
         <div className="flex justify-center md:justify-end">
           <Reveal direction="right" delay={150}>
-            {/* Right Column */}
             <div className="flex flex-col items-center gap-4 md:items-end">
               {/* Image */}
               <div className="relative w-full max-w-xs overflow-hidden rounded-xl">
@@ -94,6 +92,8 @@ export default function Hero() {
               {/* Status Panel */}
               <StatusPanel />
             </div>
+
+
           </Reveal>
         </div>
       </div>

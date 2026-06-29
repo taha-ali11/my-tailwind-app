@@ -432,7 +432,7 @@ export default function ContactForm() {
           </Reveal>
 
           {/* ─────────────────────────── TRUST PANEL COLUMN ─────────────────────────── */}
-          <Reveal direction="right" delay={150} className="h-full pt-44 pb-48 ">
+          <Reveal direction="right" delay={150} className="h-full pt-44 pb-48">
           <div className="h-full rounded-xl border border-line bg-surface p-6 md:p-8">
             <h3 className="font-mono text-xs uppercase tracking-wider text-muted">
               What happens after you send this
