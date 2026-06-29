@@ -1,4 +1,4 @@
-# Northbeam Digital — Agency Website
+# @DevX — Agency Website
 
 Production-ready Next.js (App Router) starter for a web dev + marketing
 agency offering Web Development, SEO, Google Ads, Instagram Post Creation,
