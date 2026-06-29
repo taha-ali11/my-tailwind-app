@@ -8,6 +8,11 @@ const mono = JetBrains_Mono({ subsets: ["latin"], weight: ["400", "500"], variab
 export const metadata = {
   title: "@DevX — Web Development, SEO & Growth Marketing",
   description: "Web development, SEO, Google Ads, and content — engineered like infrastructure, monitored like one too.",
+  icons: {
+    icon: "/icon.png",
+    shortcut: "/favicon.ico",
+    apple: "/apple-icon.png",
+  },
 };
 
 export default function RootLayout({ children }) {

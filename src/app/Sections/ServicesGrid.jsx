@@ -1,7 +1,11 @@
 import { Code2, Search, MousePointerClick, Instagram, Megaphone, ArrowUpRight } from "lucide-react";
+// npm install lucide-react
+import Reveal from "../components/Reveal";
 
-
-
+// EDIT HERE — this array is the single source of truth for the services grid.
+// Add, remove, or reorder services freely; the layout adjusts automatically.
+// "code" mirrors a real catalog/ticket ID (ties into the status-panel concept
+// in the hero) rather than implying these are steps in a sequence.
 const SERVICES = [
   {
     code: "SVC-01",
@@ -45,6 +49,7 @@ export default function ServicesGrid() {
     <section id="services" className="border-b border-line bg-ink">
       <div className="mx-auto max-w-6xl px-6 py-20 md:py-28">
         {/* SECTION HEADER — EDIT HERE */}
+        <Reveal direction="up">
         <div className="max-w-xl">
           <span className="font-mono text-xs uppercase tracking-[0.2em] text-trace">
             What we run
@@ -57,38 +62,48 @@ export default function ServicesGrid() {
             small team across every channel, so nothing gets lost in translation.
           </p>
         </div>
+        </Reveal>
 
         {/* GRID — first card spans full width on desktop for visual rhythm */}
         <div className="mt-12 grid gap-px overflow-hidden rounded-xl border border-line bg-line md:grid-cols-2">
-          {SERVICES.map((service) => {
+          {SERVICES.map((service, index) => {
             const Icon = service.icon;
             return (
-              <a
+              // EDIT HERE — alternates left/right per card; change the
+              // condition below (e.g. always "left", or every 3rd "right")
+              // to restyle the cascade. delay staggers each card by 100ms.
+              <Reveal
                 key={service.code}
-                href={`#contact`} // EDIT HERE — link to a dedicated /services/[slug] page once built
-                className="group flex flex-col justify-between gap-4 bg-surface p-6 transition-colors hover:bg-surface/60 md:p-8"
+                direction={index % 2 === 0 ? "left" : "right"}
+                delay={index * 100}
+                className="h-full"
               >
-                <div>
-                  <div className="flex items-center justify-between">
-                    <span className="font-mono text-[11px] tracking-wider text-muted">
-                      {service.code}
-                    </span>
-                    <Icon className="h-5 w-5 text-trace" strokeWidth={1.75} aria-hidden="true" />
+                <a
+                  href={`#contact`} // EDIT HERE — link to a dedicated /services/[slug] page once built
+                  className="group flex h-full flex-col justify-between gap-4 bg-surface p-6 transition-colors hover:bg-surface/60 md:p-8"
+                >
+                  <div>
+                    <div className="flex items-center justify-between">
+                      <span className="font-mono text-[11px] tracking-wider text-muted">
+                        {service.code}
+                      </span>
+                      <Icon className="h-5 w-5 text-trace" strokeWidth={1.75} aria-hidden="true" />
+                    </div>
+
+                    <h3 className="mt-4 font-display text-xl font-bold text-paper">
+                      {service.title}
+                    </h3>
+                    <p className="mt-2 text-sm leading-relaxed text-muted">
+                      {service.description}
+                    </p>
                   </div>
 
-                  <h3 className="mt-4 font-display text-xl font-bold text-paper">
-                    {service.title}
-                  </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-muted">
-                    {service.description}
-                  </p>
-                </div>
-
-                <span className="flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider text-signal opacity-0 transition-opacity group-hover:opacity-100">
-                  Learn more
-                  <ArrowUpRight className="h-3.5 w-3.5" />
-                </span>
-              </a>
+                  <span className="flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider text-signal opacity-0 transition-opacity group-hover:opacity-100">
+                    Learn more
+                    <ArrowUpRight className="h-3.5 w-3.5" />
+                  </span>
+                </a>
+              </Reveal>
             );
           })}
         </div>

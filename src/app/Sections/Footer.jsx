@@ -1,4 +1,6 @@
 // EDIT HERE — links, legal pages, and social handles.
+import Reveal from "../components/Reveal";
+
 const FOOTER_LINKS = [
   { label: "Services", href: "#services" },
   { label: "Results", href: "#testimonials" },
@@ -9,6 +11,7 @@ const FOOTER_LINKS = [
 export default function Footer() {
   return (
     <footer className="border-t border-line bg-ink">
+      <Reveal direction="up">
       <div className="mx-auto flex max-w-6xl flex-col gap-6 px-6 py-10 md:flex-row md:items-center md:justify-between">
         <div className="flex items-center gap-2">
           <span className="h-1.5 w-1.5 rounded-full bg-signal" aria-hidden="true" />
@@ -33,6 +36,7 @@ export default function Footer() {
           © {new Date().getFullYear()} Northbeam Digital. All rights reserved.
         </p>
       </div>
+      </Reveal>
     </footer>
   );
 }

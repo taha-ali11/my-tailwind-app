@@ -1,9 +1,15 @@
-import Image from "next/image";
 import StatusPanel from "../components/StatusPanel";
+import Reveal from "../components/Reveal";
+import Image from "next/image";
+
+// Server component — no useState/useEffect here, so this section ships
+// zero extra client-side JS. Keeps the largest, most important part of the
+// page fast on first paint (good for Core Web Vitals + conversion).
 
 export default function Hero() {
   return (
     <section className="relative overflow-hidden border-b border-line">
+      {/* faint background grid — purely atmospheric, sits behind the content */}
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.07]"
         style={{
@@ -14,70 +20,81 @@ export default function Hero() {
         aria-hidden="true"
       />
 
-      {/* Reduced padding from py-20 to py-12 and md:py-20 */}
-      <div className="relative mx-auto grid max-w-6xl gap-12 px-6 py-12 md:grid-cols-2 md:items-center md:py-16">
-        {/* Left Column */}
-        <div>
-          <span className="font-mono text-xs uppercase tracking-[0.2em] text-trace">
-            Web + Growth Agency
-          </span>
+      <div className="relative mx-auto grid max-w-6xl gap-12 px-6 py-16 md:grid-cols-2 md:items-center md:py-24">
+        {/* LEFT COLUMN — copy + CTAs — fades up from below as it enters the viewport */}
+        <Reveal direction="up">
+          <div>
+            {/* EDIT HERE — eyebrow label */}
+            <span className="font-mono text-xs uppercase tracking-[0.2em] text-trace">
+              Web + Growth Agency
+            </span>
 
-          <h1 className="mt-4 font-display text-4xl font-bold leading-[1.1] text-paper md:text-5xl">
-            We build and run your growth stack like production infrastructure.
-          </h1>
+            {/* EDIT HERE — primary headline */}
+            <h1 className="mt-4 font-display text-4xl font-bold leading-[1.1] text-paper md:text-5xl">
+              We build and run your growth stack like production infrastructure.
+            </h1>
 
-          <p className="mt-5 max-w-md text-base leading-relaxed text-muted md:text-lg">
-            Web development, SEO, paid ads, and content — engineered, shipped,
-            and monitored under one roof. No vague reports. No black boxes.
-          </p>
+            {/* EDIT HERE — supporting subhead */}
+            <p className="mt-5 max-w-md text-base leading-relaxed text-muted md:text-lg">
+              Web development, SEO, paid ads, and content — engineered, shipped,
+              and monitored under one roof. No vague reports. No black boxes.
+            </p>
 
-          <div className="mt-8 flex flex-wrap items-center gap-4">
-            <a
-              href="#contact"
-              className="rounded-md bg-signal px-6 py-3 font-mono text-sm font-medium uppercase tracking-wider text-ink transition-transform hover:-translate-y-0.5 hover:bg-signal/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-signal"
-            >
-              Start a Project
-            </a>
-            <a
-              href="#services"
-              className="rounded-md border border-line px-6 py-3 font-mono text-sm font-medium uppercase tracking-wider text-paper transition-colors hover:border-trace hover:text-trace"
-            >
-              View Services
-            </a>
+            {/* CTAs */}
+            <div className="mt-8 flex flex-wrap items-center gap-4">
+              <a
+                href="#contact"
+                className="rounded-md bg-signal px-6 py-3 font-mono text-sm font-medium uppercase tracking-wider text-ink transition-transform hover:-translate-y-0.5 hover:bg-signal/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-signal"
+              >
+                Start a Project
+              </a>
+              <a
+                href="#services"
+                className="rounded-md border border-line px-6 py-3 font-mono text-sm font-medium uppercase tracking-wider text-paper transition-colors hover:border-trace hover:text-trace"
+              >
+                View Services
+              </a>
+            </div>
+
+            {/* trust strip — EDIT HERE: swap for real numbers once you have them */}
+            <dl className="mt-12 flex gap-8 border-t border-line pt-6">
+              <div>
+                <dt className="font-mono text-[11px] uppercase tracking-wider text-muted">Launched</dt>
+                <dd className="font-display text-xl font-bold text-paper">40+ sites</dd>
+              </div>
+              <div>
+                <dt className="font-mono text-[11px] uppercase tracking-wider text-muted">Avg. response</dt>
+                <dd className="font-display text-xl font-bold text-paper">&lt; 24h</dd>
+              </div>
+              <div>
+                <dt className="font-mono text-[11px] uppercase tracking-wider text-muted">Channels run</dt>
+                <dd className="font-display text-xl font-bold text-paper">5</dd>
+              </div>
+            </dl>
           </div>
+        </Reveal>
 
-          <dl className="mt-12 flex gap-8 border-t border-line pt-6">
-            <div>
-              <dt className="font-mono text-[11px] uppercase tracking-wider text-muted">Launched</dt>
-              <dd className="font-display text-xl font-bold text-paper">40+ sites</dd>
-            </div>
-            <div>
-              <dt className="font-mono text-[11px] uppercase tracking-wider text-muted">Avg. response</dt>
-              <dd className="font-display text-xl font-bold text-paper">&lt; 24h</dd>
-            </div>
-            <div>
-              <dt className="font-mono text-[11px] uppercase tracking-wider text-muted">Channels run</dt>
-              <dd className="font-display text-xl font-bold text-paper">5</dd>
-            </div>
-          </dl>
-        </div>
+        {/* RIGHT COLUMN — signature status panel — slides in from the right */}
+        <div className="flex justify-center md:justify-end">
+          <Reveal direction="right" delay={150}>
+            {/* Right Column */}
+            <div className="flex flex-col items-center gap-4 md:items-end">
+              {/* Image */}
+              <div className="relative w-full max-w-xs overflow-hidden rounded-xl">
+                <Image
+                  src="/assets/heroimage.Webp"
+                  alt="Dashboard preview showing growth stack status"
+                  width={400}
+                  height={300}
+                  className="h-auto w-full object-cover"
+                  priority
+                />
+              </div>
 
-        {/* Right Column */}
-        <div className="flex flex-col items-center gap-4 md:items-end">
-          {/* Image */}
-          <div className="relative w-full max-w-xs overflow-hidden rounded-xl">
-            <Image
-              src="/assets/heroimage.Webp"
-              alt="Dashboard preview showing growth stack status"
-              width={400}
-              height={300}
-              className="h-auto w-full object-cover"
-              priority
-            />
-          </div>
-
-          {/* Status Panel */}
-          <StatusPanel />
+              {/* Status Panel */}
+              <StatusPanel />
+            </div>
+          </Reveal>
         </div>
       </div>
     </section>
