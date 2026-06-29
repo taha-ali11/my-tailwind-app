@@ -16,7 +16,7 @@ export default function Footer() {
         <div className="flex items-center gap-2">
           <span className="h-1.5 w-1.5 rounded-full bg-signal" aria-hidden="true" />
           <span className="font-display text-sm font-bold text-paper">
-            Northbeam Digital
+            @DevX
           </span>
         </div>
 
@@ -33,7 +33,7 @@ export default function Footer() {
         </nav>
 
         <p className="font-mono text-[11px] text-muted">
-          © {new Date().getFullYear()} Northbeam Digital. All rights reserved.
+          © {new Date().getFullYear()} @DevX. All rights reserved.
         </p>
       </div>
       </Reveal>

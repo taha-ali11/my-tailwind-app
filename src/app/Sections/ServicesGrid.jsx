@@ -1,4 +1,4 @@
-import { Code2, Search, MousePointerClick, Instagram, Megaphone, ArrowUpRight } from "lucide-react";
+import { Code ,Code2, Search, MousePointerClick, Instagram, Megaphone, ArrowUpRight } from "lucide-react";
 // npm install lucide-react
 import Reveal from "../components/Reveal";
 
@@ -41,6 +41,13 @@ const SERVICES = [
     title: "Media Marketing",
     description:
       "Cross-channel campaigns that connect your paid, organic, and social efforts into one coherent story instead of five disconnected ones.",
+  },
+  {
+    code: "SVC-06",
+    icon: Code,
+    title: "WordPress Development",
+    description:
+      "Custom WordPress solutions that are fast, secure, and easy to manage. We build themes and plugins tailored to your needs.",
   },
 ];
 
