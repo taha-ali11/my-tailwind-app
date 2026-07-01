@@ -15,7 +15,7 @@
 // publishing this for real — see the "EDIT HERE" notes inline.
 
 import { Lock } from "lucide-react"; // npm install lucide-react
-import Navbar from "../sections/Navbar";
+import Navbar from "../privacy/PrivacyNavbar";
 import Footer from "../sections/Footer";
 
 export const metadata = {
