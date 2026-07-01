@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Menu, X } from "lucide-react"; // npm install lucide-react
+import { useRouter } from "next/navigation";
 
 // EDIT HERE — nav links and labels
 const NAV_LINKS = [
@@ -23,7 +24,7 @@ const NAV_LINKS = [
 // ─────────────────────────────────────────────────────────────────────────
 function smoothScrollTo(hash, duration = 800) {
   const target = document.querySelector(hash);
-  if (!target) return;
+  if (!target) return false;
 
   const navbarOffset = 72;
   const startY = window.scrollY;
@@ -43,15 +44,32 @@ function smoothScrollTo(hash, duration = 800) {
   }
 
   requestAnimationFrame(step);
+  return true;
 }
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
 
   function handleNavClick(event, href) {
     event.preventDefault();
-    smoothScrollTo(href);
-    setIsOpen(false); // no-op on desktop, closes the mobile panel when open
+    
+    // Check if we're on the main page (where sections exist)
+    const isMainPage = window.location.pathname === "/" || window.location.pathname === "";
+    
+    if (isMainPage) {
+      // Try to scroll to the section on the current page
+      const scrolled = smoothScrollTo(href);
+      if (!scrolled) {
+        // Fallback: navigate to home with hash if element doesn't exist
+        router.push(`/${href}`);
+      }
+    } else {
+      // We're on a subpage (like privacy), navigate to home with the hash
+      router.push(`/${href}`);
+    }
+    
+    setIsOpen(false);
   }
 
   return (
